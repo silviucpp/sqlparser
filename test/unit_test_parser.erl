@@ -90,9 +90,6 @@ insert_on_duplicate_test(Handler) ->
     ?assertEqual(ok, Handler:parse("INSERT INTO table1 (col1, col2, col3, col4) VALUES (1, 'val2', 0, FROM_UNIXTIME(123456)) ON DUPLICATE KEY UPDATE col3 = 0, last_update = FROM_UNIXTIME(123456)")).
 
 show_test(Handler) ->
-%%    expected: {show,databases,undefined,undefined,undefined}
-%%    got: {show,databases,false,undefined,undefined}
-
     ?assertEqual(#show{type = databases}, Handler:parse("SHOW databases")),
     ?assertEqual(#show{type = variables}, Handler:parse("SHOW variables")),
     ?assertEqual(#show{type = tables, full = true}, Handler:parse("SHOW FULL tables")),
