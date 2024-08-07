@@ -51,6 +51,7 @@ reserved_word('commit') -> true;
 reserved_word('delete') -> true;
 reserved_word('desc') -> true;
 reserved_word('distinct') -> true;
+reserved_word('drop') -> true;
 reserved_word('from') -> true;
 reserved_word('group') -> true;
 reserved_word('having') -> true;

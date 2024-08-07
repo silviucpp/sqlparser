@@ -17,13 +17,13 @@ transaction_stmt selection_list table_column variable
 insert_row_list insert_row insert_set_pair_list describe_stmt
 show_stmt show_type show_type_full set_stmt set_assign set_assign_list set_value set_target
 opt_full opt_from opt_condition selection_item cast_expr selection_item_alias
-table_ref_alias opt_collate opt_charset use_stmt truncate_stmt.
+table_ref_alias opt_collate opt_charset use_stmt truncate_stmt drop_table_stmt.
 
 Terminals '-' '+' '*' '/' '(' ')' ',' ';' '=' '.' '<' '>' '<=' '>=' '=<' '=>' '!=' '<>'
 describe show delete insert select update from where into values null not in
 like between or and group by having is set offset limit
 begin rollback commit order asc desc string name integer as var full use
-tables databases variables fields index create table collation cast collate character truncate.
+tables databases variables fields index create table collation cast collate character truncate drop.
 
 Rootsymbol sql_list.
 
@@ -45,6 +45,7 @@ manipulative_stmt -> show_stmt : '$1'.
 manipulative_stmt -> set_stmt : '$1'.
 manipulative_stmt -> use_stmt : '$1'.
 manipulative_stmt -> truncate_stmt : '$1'.
+manipulative_stmt -> drop_table_stmt : '$1'.
 
 %% Transactions
 
@@ -56,6 +57,10 @@ transaction_stmt -> commit : 'commit'.
 
 truncate_stmt -> truncate table table_name : #truncate_table{table='$3'}.
 truncate_stmt -> truncate table_name : #truncate_table{table='$2'}.
+
+%% DROP TABLE
+
+drop_table_stmt -> drop table table_name : #drop_table{table='$3'}.
 
 %% DELETE
 

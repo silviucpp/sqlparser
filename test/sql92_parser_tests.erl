@@ -97,5 +97,5 @@ update_where_test() ->
 truncate_table_test() ->
     unit_test_parser:truncate_table_test(?HANDLER).
 
-%%drop_table_test() ->
-%%    unit_test_parser:drop_table_test(?HANDLER).
+drop_table_test() ->
+    unit_test_parser:drop_table_test(?HANDLER).
