@@ -10,6 +10,7 @@ SQL Parsers let you parse SQL strings to generic SQL records.
 - Both `mysql_parser` and `sql92_parser` will provide same output.
 - Unit tests are running on both parsers.
 - Cleanup repo.
+- Add support for `TRUNCATE` command.
 
 ## Usage
 

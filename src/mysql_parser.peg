@@ -1,5 +1,5 @@
 sql <- set_query / select_query / update_query / insert_query / delete_query / show_query / desc_query / use_query / create_table_query / drop_table_query /
-    transaction_query / account_management_query ~;
+    truncate_table_query / transaction_query / account_management_query ~;
 
 % --------------- USE
 
@@ -199,10 +199,16 @@ insert_set <- space? insert space into space table_general space set space sets 
     #insert{table=lists:nth(6, Node), values=lists:nth(10, Node)}
 `;
 
-% ---------------- CREATE TABLE
+% ---------------- DROP TABLE
 
 drop_table_query <- space? drop_table space table_general space? `
     #drop_table{table = lists:nth(4, Node)}
+`;
+
+% ---------------- TRUNCATE TABLE
+
+truncate_table_query <- space? truncate_table space table_general space? `
+    #truncate_table{table = lists:nth(4, Node)}
 `;
 
 % ---------------- CREATE TABLE
@@ -543,6 +549,7 @@ create_routine <- #(?i)create +routine# `create_routine`;
 create_temp_tables <- #(?i)create +temporary +tables# `create_temp_tables`;
 create_table <- #(?i)create +table# `create_table`;
 drop_table <- #(?i)drop +table# `drop_table`;
+truncate_table <- #(?i)truncate +table# / #(?i)truncate# `truncate_table`;
 event <- #(?i)event# `event`;
 file <- #(?i)file# `file`;
 grant_option <- #(?i)grant +option# `grant_option`;

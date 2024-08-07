@@ -1,6 +1,5 @@
-%% -*- erlang; utf-8 -*-
+% common
 
-% COMMON
 -record(table, {name, alias}).
 -record(all, {table}).
 -record(subquery, {name, subquery }).
@@ -10,44 +9,48 @@
 -record(function, {name, params, alias}).
 -record(operation, {type, op1, op2}).
 -record(variable, {name, label, scope}).
-
 -record(system_set, {'query'}).
 
-% SHOW
--record(show, {type, full, from, conditions}).
+-type sql() :: show() | select() | update() | delete() | insert() | create_table() | drop_table() | truncate_table().
 
+% show
+
+-record(show, {type, full, from, conditions}).
 -type show() :: #show{}.
 
-% SELECT
+% select
+
 -record(select, {params, tables, conditions, group, order, limit, offset}).
 -record(order, {key, sort}).
-
 -type select() :: #select{}.
 
-% UPDATE
+% update
+
 -record(update, {table, set, conditions}).
 -record(set, {key, value}).
 
 -type update() :: #update{}.
 
-% DELETE
--record(delete, {table, conditions}).
+% delete
 
+-record(delete, {table, conditions}).
 -type delete() :: #delete{}.
 
-% INSERT
--record(insert, {table, values}).
+% insert
 
+-record(insert, {table, values}).
 -type insert() :: #insert{}.
 
-% DESCRIBE
--record(describe, {table}).
+% describe
 
+-record(describe, {table}).
 -type describe() :: #describe{}.
 
-% CREATE TABLE
+% create table
+
 -record(create_table, {table, fields}).
 -type create_table() :: #create_table{}.
+
 -record(field, {
     name,
     type,
@@ -57,14 +60,18 @@
     null = true
 }).
 
-% DROP TABLE
+% drop table
+
 -record(drop_table, {table}).
 -type drop_table() :: #drop_table{}.
 
--type sql() :: show() | select() | update() | delete() | insert() |
-               create_table() | drop_table().
+% truncate table
 
-% Database Administration Statements
+-record(truncate_table, {table}).
+-type truncate_table() :: #truncate_table{}.
+
+% database administration statements
+
 -record(management, {action :: action(), data :: account() | permission() }).
 -record(account, {access}).
 -record(permission, {on, account, conditions}).

@@ -34,6 +34,7 @@
     update_multiparams_test/1,
     update_where_test/1,
     create_table_test/1,
+    truncate_table_test/1,
     drop_table_test/1
 ]).
 
@@ -373,6 +374,10 @@ create_table_test(Handler) ->
                 #field{name = <<"username">>, type = {text, undefined}}
             ]
         }, Handler:parse("create table my_table(id int primary key, username text)")).
+
+truncate_table_test(Handler) ->
+    ?assertEqual(#truncate_table{table = #table{alias = <<"my_table">>, name = <<"my_table">>}}, Handler:parse("TRUNCATE table my_table")),
+    ?assertEqual(#truncate_table{table = #table{alias = <<"my_table">>, name = <<"my_table">>}}, Handler:parse("TRUNCATE my_table")).
 
 drop_table_test(Handler) ->
     ?assertEqual(#drop_table{table = #table{alias = <<"my_table">>, name = <<"my_table">>}}, Handler:parse("drop table my_table")).

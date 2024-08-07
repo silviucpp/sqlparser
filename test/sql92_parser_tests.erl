@@ -94,5 +94,8 @@ update_where_test() ->
 %%create_table_test() ->
 %%    unit_test_parser:create_table_test(?HANDLER).
 
+truncate_table_test() ->
+    unit_test_parser:truncate_table_test(?HANDLER).
+
 %%drop_table_test() ->
 %%    unit_test_parser:drop_table_test(?HANDLER).

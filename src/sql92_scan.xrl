@@ -80,6 +80,7 @@ reserved_word('index') -> true;
 reserved_word('create') -> true;
 reserved_word('table') -> true;
 reserved_word('tables') -> true;
+reserved_word('truncate') -> true;
 reserved_word('databases') -> true;
 reserved_word('variables') -> true;
 reserved_word('collation') -> true;
@@ -89,7 +90,7 @@ reserved_word('cast') -> true;
 reserved_word('use') -> true;
 reserved_word(_) -> false.
 
-string_gen([A,A|Cs]) when A == $'; A == $" -> 
+string_gen([A,A|Cs]) when A == $'; A == $" ->
   [A|string_gen(Cs)];
 string_gen([$\\|Cs]) ->
     string_escape(Cs);
