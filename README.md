@@ -1,21 +1,23 @@
 SQL Parser
 ==========
 
-[![Build Status](https://img.shields.io/travis/altenwald/sqlparser/master.svg)](https://travis-ci.org/altenwald/sqlparser)
-[![Codecov](https://img.shields.io/codecov/c/github/altenwald/sqlparser.svg)](https://codecov.io/gh/altenwald/sqlparser)
-[![License: LGPL 2.1](https://img.shields.io/github/license/altenwald/sqlparser.svg)](https://raw.githubusercontent.com/altenwald/sqlparser/master/COPYING)
-[![Hex](https://img.shields.io/hexpm/v/sqlparser.svg)](https://hex.pm/packages/sqlparser)
+[![License: LGPL 2.1](https://img.shields.io/github/license/silviucpp/sqlparser.svg)](https://raw.githubusercontent.com/silviucpp/sqlparser/master/LICENSE)
 
-SQL Parsers let you to parse SQL strings to generic SQL records.
+SQL Parsers let you parse SQL strings to generic SQL records.
 
-Usage
------
+## Changes comparing with original repo
+
+- Both `mysql_parser` and `sql92_parser` will provide same output.
+- Unit tests are running on both parsers.
+- Cleanup repo.
+
+## Usage
 
 If you want to use, only add this in `rebar.config` using [rebar3](https://rebar3.org):
 
 ```erlang
 {deps, [
-    {sqlparser, "0.3.1"}
+    {sqlparser, ".*", {git, "https://github.com/silviucpp/sqlparser.git", {ref, "master"}}}
 ]}.
 ```
 

@@ -3,20 +3,20 @@
 %% @doc A syntax of a subset of SQL-92
 
 Nonterminals
-assign_commalist assign atom atom_commalist between_pred column 
-column_commalist column_ref column_ref_commalist comparsion_pred 
+assign_commalist assign atom atom_commalist between_pred column
+column_commalist column_ref column_ref_commalist comparsion_pred
 delete_stmt from_clause in_pred opt_column_commalist
 scalar_exp_list insert_stmt like_pred literal opt_order_by_clause
 manipulative_stmt opt_group_by_clause sort_spec_commalist
 sort_spec sort_key ordering_spec opt_having_clause opt_where_clause
-predicate scalar_exp scalar_exp_commalist 
+predicate scalar_exp scalar_exp_commalist
 search_cond select_stmt sql sql_list tname table_name table_exp
-table_ref table_ref_commalist test_for_null_pred update_stmt 
+table_ref table_ref_commalist test_for_null_pred update_stmt
 values_or_select_stmt where_clause opt_limit_offset_clause
 transaction_stmt selection_list table_column variable
-insert_row_list insert_row insert_set_pair_list describe_stmt 
-show_stmt show_type set_stmt set_assign set_assign_list set_value set_target 
-opt_full opt_from opt_condition selection_item cast_expr selection_item_alias 
+insert_row_list insert_row insert_set_pair_list describe_stmt
+show_stmt show_type show_type_full set_stmt set_assign set_assign_list set_value set_target
+opt_full opt_from opt_condition selection_item cast_expr selection_item_alias
 table_ref_alias opt_collate opt_charset use_stmt.
 
 Terminals '-' '+' '*' '/' '(' ')' ',' ';' '=' '.' '<' '>' '<=' '>=' '=<' '=>' '!=' '<>'
@@ -57,7 +57,7 @@ delete_stmt -> delete from table_name opt_where_clause : #delete{table='$3', con
 
 %% INSERT statement
 
-insert_stmt -> insert into table_name set insert_set_pair_list : #insert{table='$3', values=['$5']}.
+insert_stmt -> insert into table_name set insert_set_pair_list : #insert{table='$3', values='$5'}.
 insert_stmt -> insert into table_name opt_column_commalist values_or_select_stmt : #insert{table='$3', values=zip_insert_values('$4', '$5')}.
 
 opt_column_commalist -> '$empty' : undefined.
@@ -101,10 +101,13 @@ opt_collate -> '$empty' : undefined.
 %% DESCRIBE
 
 describe_stmt -> describe table_name : #describe{table='$2'}.
-show_stmt -> show opt_full create table name: #show{type=create_table, full='$2', from=value_of('$5')}.
-show_stmt -> show opt_full show_type opt_from opt_condition: #show{type='$3', full='$2', from='$4', conditions='$5'}.
-show_type -> tables : tables.
-show_type -> fields : fields.
+show_stmt -> show create table name: #show{type=create_table, from=value_of('$4')}.
+show_stmt -> show opt_full show_type_full opt_from opt_condition: #show{type='$3', full='$2', from='$4', conditions='$5'}.
+show_stmt -> show show_type opt_from opt_condition: #show{type='$2', from='$3', conditions='$4'}.
+
+show_type_full -> fields : fields.
+show_type_full -> tables : tables.
+
 show_type -> index : index.
 show_type -> databases : databases.
 show_type -> variables : variables.
@@ -159,11 +162,11 @@ table_column -> name 					: #key{name=value_of('$1'), alias=value_of('$1')}.
 
 % -record(select, {params, tables, conditions, group, order, limit, offset}).
 %% Table expressions
-table_exp -> 
-	opt_where_clause 
+table_exp ->
+	opt_where_clause
 	opt_order_by_clause
-	opt_group_by_clause 
-	opt_having_clause 
+	opt_group_by_clause
+	opt_having_clause
 	opt_limit_offset_clause : #select{conditions='$1', order='$2', group='$3', limit=map_key(limit, '$5'), offset=map_key(offset, '$5')}.
 
 from_clause -> from table_ref_commalist : '$2'.
@@ -310,8 +313,10 @@ apply_alias(#value{}=V, A) -> V#value{name=A};
 apply_alias(#key{}=V, A) -> V#key{alias=A};
 apply_alias(V, _) -> V.
 
-zip_insert_values(undefined, Rows) -> Rows;
-zip_insert_values(Keys, Rows) -> 
-	[ [#set{key=Key, value=Val} 
-		|| {Key, Val} <- lists:zip(Keys, Row)] 
-	|| Row <- Rows].
+zip_insert_values(undefined, Rows) ->
+    [H] = Rows,
+    H;
+zip_insert_values(Keys, Rows) ->
+    [H] = [[#set{key=Key, value=Val} || {Key, Val} <- lists:zip(Keys, Row)] || Row <- Rows],
+    H.
+

@@ -50,7 +50,7 @@ show_tables_from <- show_tables:show_tables space from space key:key space? `
 
 show_tables_like <- show_tables:show_tables space like space pattern:string space? `
     ShowTables = proplists:get_value(show_tables, Node),
-    ShowTables#show{from={like,proplists:get_value(pattern,Node)}}
+    ShowTables#show{conditions={like,proplists:get_value(pattern,Node)}}
 `;
 
 show_databases <- space? show space databases space? `
@@ -96,9 +96,9 @@ set_query <- set space head:system_set tail:(space? ',' space? s:system_set )* s
 system_set <- var:set_var space? '=' space? val:value / names:'NAMES' space val:string / names:'NAMES' space val:charset `
     case proplists:get_value(names,Node) of
         undefined ->
-            {proplists:get_value(var,Node), proplists:get_value(val,Node)};
+            {proplists:get_value(var,Node), #value{value = proplists:get_value(val,Node)}};
         N ->
-            {#variable{name = N, scope = session}, proplists:get_value(val,Node)}
+            {#variable{name = N, scope = session}, #value{value = proplists:get_value(val,Node)}}
     end
 `;
 

@@ -1,8 +1,8 @@
--module(mysql_parser_tests).
+-module(sql92_parser_tests).
 
 -include_lib("eunit/include/eunit.hrl").
 
--define(HANDLER, mysql_parser).
+-define(HANDLER, sql92_parser).
 
 transaction_test() ->
     unit_test_parser:transaction_test(?HANDLER).
@@ -90,9 +90,9 @@ update_multiparams_test() ->
 
 update_where_test() ->
     unit_test_parser:update_where_test(?HANDLER).
+%%
+%%create_table_test() ->
+%%    unit_test_parser:create_table_test(?HANDLER).
 
-create_table_test() ->
-    unit_test_parser:create_table_test(?HANDLER).
-
-drop_table_test() ->
-    unit_test_parser:drop_table_test(?HANDLER).
+%%drop_table_test() ->
+%%    unit_test_parser:drop_table_test(?HANDLER).

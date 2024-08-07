@@ -1,6 +1,4 @@
-{"1.1.0",
-[{<<"neotoma">>,{pkg,<<"neotoma">>,<<"1.7.3">>},0}]}.
-[
-{pkg_hash,[
- {<<"neotoma">>, <<"D8BD5404B73273989946E4F4F6D529E5C2088F5FA1CA790B4DBE81F4BE408E61">>}]}
-].
+[{<<"neotoma">>,
+  {git,"https://github.com/seancribbs/neotoma.git",
+       {ref,"ca56a014be0338ac0f695645aed8042e4117efe6"}},
+  0}].

@@ -1,4 +1,4 @@
-REBAR := ./rebar3
+REBAR := rebar3
 
 all: compile
 
@@ -7,14 +7,12 @@ compile:
 
 clean:
 	${REBAR} clean skip_deps=true
-	rm -f src/*_parser.erl
+	rm -f src/mysql_parser.erl
+	rm -f src/sql92_parser_int.erl
+	rm -f src/sql92_scan.erl
 	rm -rf _build
 
 test:
 	${REBAR} do xref, eunit, cover
-	./covertool \
-		-cover _build/test/cover/eunit.coverdata \
-		-appname sqlparser \
-		-output cobertura.xml
 
 .PHONY: test compile clean all
